@@ -1,6 +1,8 @@
 package com.codeit.springbeanpractice.example01.config;
 
 import com.codeit.springbeanpractice.example01.dto.MemberDTO;
+import com.codeit.springbeanpractice.example01.entity.Account;
+import com.codeit.springbeanpractice.example01.entity.PersonalAccount;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,5 +24,11 @@ public class ContextConfiguration {
                 "jungmin@google.com",
                 "이정민"
         );
+    }
+
+    // 과제 2: @Bean의 name 속성으로 이름 변경
+    @Bean(name = "mySpecialAccount")
+    public Account createAccount() {
+        return new PersonalAccount("999-888-777", 5000000, 101);
     }
 }

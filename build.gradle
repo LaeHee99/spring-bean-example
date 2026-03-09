@@ -32,3 +32,10 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// 여러 개의 Main 클래스가 있는 경우 기본 Main 지정
+// 특정 예제를 실행하려면 IDE에서 직접 해당 예제의 Main 클래스를 실행하세요
+// 또는 -PmainClass 옵션 사용: ./gradlew bootRun -PmainClass=com.codeit.springbeanpractice.example01.SpringBeanPracticeApplication
+springBoot {
+    mainClass = 'com.codeit.springbeanpractice.example01.SpringBeanPracticeApplication'
+}

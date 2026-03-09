@@ -13,13 +13,16 @@ public class PokemonApplication {
         ApplicationContext context =
                 SpringApplication.run(PokemonApplication.class, args);
 
-        // PokemonService 빈을 가져와 포켓몬 공격 실행
-        // (Pokemon 구현체가 여러 개일 경우 @Primary 또는 @Qualifier 필요)
-//        PokemonService service = context.getBean(PokemonService.class);
-//        service.pokemonAttack();
+        System.out.println("=== example08: 동일 타입 Bean 여러 개 주입 ===\n");
 
-        // 다른 주입 방식/버전의 서비스 테스트용
-//        PokemonServiceV2 serviceV2 = context.getBean(PokemonServiceV2.class);
-//        serviceV2.pokemonAttack();
+        // 1. PokemonService: @Qualifier로 특정 구현체 주입
+        System.out.println("1. PokemonService (@Qualifier 사용):");
+        PokemonService service = context.getBean(PokemonService.class);
+        service.pokemonAttack();
+
+        // 2. PokemonServiceV2: Map으로 모든 Pokemon 구현체 주입
+        System.out.println("\n2. PokemonServiceV2 (Map<String, Pokemon> 주입):");
+        PokemonServiceV2 serviceV2 = context.getBean(PokemonServiceV2.class);
+        serviceV2.pokemonAttack();
     }
 }

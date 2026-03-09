@@ -1,50 +1,51 @@
 spring:
   profiles:
     active:
-      # ?? ?? ? ???? ???? ??
-      # - test / dev / prod ?? ??? ??? Bean(@Profile) ??? ?? ? ??
-      #      - test
+      # 활성화할 프로파일 지정
+      # - test / dev / prod 등 프로파일에 따라 Bean(@Profile) 등록 여부가 달라짐
+      # - example19를 위해 dev와 test 둘 다 활성화
       - dev
+      - test
 
   autoconfigure:
-    # Spring Boot? ?? ??(AutoConfiguration) ??? ?? ??? ??
-    # SecurityAutoConfiguration(?? ?? ????)? ????
-    # ?? ??? ???/?? ?? ?? ???? ??
+    # Spring Boot의 자동 설정(AutoConfiguration) 중에서 제외할 것을 지정
+    # SecurityAutoConfiguration(보안 자동 설정)을 제외함
+    # 예제 실습 중 인증/권한 관련 설정이 필요 없는 경우
     exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
   application:
-    # ?????? ??
-    # ??/Actuator/?? ???? ???? ??? ?
+    # 애플리케이션 이름
+    # 로깅/Actuator/모니터링 등에서 식별 용도로 사용됨
     name: spring-bean-practice
 
   jackson:
     serialization:
-      # JSON ??? ? ?? ??? ?? ?? ???? ??
-      # spring.jackson.serialization.indent-output=true ? ??? ??
-      # (ObjectMapper? INDENT_OUTPUT ??? ??)
+      # JSON 직렬화 시 보기 좋게 들여쓰기 형식 적용
+      # spring.jackson.serialization.indent-output=true 와 동일한 효과
+      # (ObjectMapper의 INDENT_OUTPUT 기능을 켬)
       indent-output: true
 
 my:
-  # ??? ?? ???? ??
-  # @Value("${my.greeting}") ?? @ConfigurationProperties(prefix="my")? ?? ??
+  # 커스텀 설정 값을 정의하는 영역
+  # @Value("${my.greeting}") 또는 @ConfigurationProperties(prefix="my")로 주입 가능
 
-  # example12 / example14?? Environment.getProperty("my.greeting")? ?? ?
+  # example12 / example14에서 Environment.getProperty("my.greeting")로 조회됨
   greeting: "Hello, Codeit Spring Bootcamp!"
 
   boolean: false
   number: 1234
 
-  # ??? 1?? ??? ?? ??(?? ??)
-  # ? @Value? String?? ???, ?? split?? ?? ??
+  # 여러 개의 값을 콤마로 구분한 문자열(단순 예제)
+  # 이후 @Value로 String으로 받거나, split으로 배열 변환 가능
   servers: "dev.example.com,prod.example.com,local.example.com"
 
   service:
-    # example13: @ConfigurationProperties(prefix="my.service")? ????? ??
+    # example13: @ConfigurationProperties(prefix="my.service")로 바인딩되는 설정
     #    name: "SpringDocs"
 
-    # ???? ?? ??
-    # ${ZSH}? "???? ZSH" ?? ???? my.service.name? ???
-    # ????? ??? ??? ??/? ?? ? ? ??? ??
+    # 환경 변수 값 참조
+    # ${ZSH}는 "환경 변수 ZSH" 값을 가져와 my.service.name에 할당함
+    # 환경변수가 없으면 기본값을 지정할 수도 있음: ${ZSH:기본값}
     name: "${ZSH}"
 
     port: 8081
@@ -66,20 +67,20 @@ my:
 
   valid:
     # example19: ValidTest(@ConfigurationProperties("my.valid")) + @Validated
-    # name: @ValidName(??? ??) ?? ??
+    # name: @ValidName(커스텀 제약) 검증 대상
     name: "asd"
 
   settings:
-    # example13: MySettings(@ConfigurationProperties(prefix="my"))??
-    # settings: Map<String, String>?? ?? ????
-    # ?? ??? ???? ???? ????? ???? ?? ??
-    # (Map<String,String>?? true/20? ???? ???)
+    # example13: MySettings(@ConfigurationProperties(prefix="my"))에서
+    # settings: Map<String, String>로 값을 바인딩함
+    # 아래 값들은 문자열 키-값 쌍으로 매핑됨
+    # (Map<String,String>이라 true/20은 문자열로 변환됨)
     cache: true
     maxConnections: 20
 
   hosts:
-    # example13: HostListProperties(@ConfigurationProperties(prefix="my"))??
-    # hosts: List<Host> ??? ????? ??
+    # example13: HostListProperties(@ConfigurationProperties(prefix="my"))에서
+    # hosts: List<Host> 형태로 리스트를 바인딩함
     - host: dev.example.com
       port: 8080
     - host: prod.example.com
@@ -88,16 +89,16 @@ my:
       port: 8888
 
 server:
-  # ?? ?? ?? ?? ??
-  # example14?? Environment.getProperty("server.port")? ?? ?
+  # 서버 포트 번호 (기본값 8080)
+  # example14에서 Environment.getProperty("server.port")로 조회됨
   port: 8080
 
 config:
-  # ??? ??? ??(?? ???? ?? ???? ???? ??? ?? ??)
+  # 커스텀 설정 값의 예시(타임아웃 등 애플리케이션 고유 설정 정의 가능)
   timeout: 3000
 
 custom:
-  # example16: FeatureXEnabledCondition?? ?? ?
-  # custom.feature-x=true ? ?? FeatureService Bean? ???
-  # false?? FeatureService? ?? ???? ??? getBean ? ?? ?? ??
+  # example16: FeatureXEnabledCondition에서 조건 확인
+  # custom.feature-x=true 일 때만 FeatureService Bean이 등록됨
+  # false이면 FeatureService는 빈으로 등록되지 않아 getBean 시 예외 발생
   feature-x: false

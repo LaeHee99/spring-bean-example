@@ -9,8 +9,8 @@ import java.util.Map;
 @Service // 스프링이 이 클래스를 서비스 빈으로 등록
 public class PokemonServiceV2 {
 
-    private final PokemonService pokemonService;
-    // 다른 서비스 의존성 (순환 참조 구조 예제용)
+    // ❌ 순환 참조 방지를 위해 PokemonService 의존성 제거
+    // private final PokemonService pokemonService;
 
     private final Map<String, Pokemon> pokemons;
     // Pokemon 타입 빈들을 Map으로 주입
@@ -18,9 +18,8 @@ public class PokemonServiceV2 {
     // - value : Pokemon 구현체
 
     // 생성자 주입
-    // - PokemonService + Pokemon 구현체 전체(Map 형태) 주입
-    public PokemonServiceV2(PokemonService pokemonService, Map<String, Pokemon> pokemons) {
-        this.pokemonService = pokemonService;
+    // - Pokemon 구현체 전체를 Map 형태로 주입
+    public PokemonServiceV2(Map<String, Pokemon> pokemons) {
         this.pokemons = pokemons;
     }
 

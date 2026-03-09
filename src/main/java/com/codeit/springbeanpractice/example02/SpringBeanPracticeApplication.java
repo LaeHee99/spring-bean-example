@@ -23,18 +23,21 @@ public class SpringBeanPracticeApplication {
         ApplicationContext context =
                 new AnnotationConfigApplicationContext(ContextConfiguration.class);
 
-        // @Bean 메서드(getMember)로 등록된 MemberDTO 빈 조회
-        MemberDTO member =
-                context.getBean("getMember", MemberDTO.class);
-        System.out.println("member = " + member);
+        // 과제 2: Account Bean 싱글톤 확인
+        System.out.println("=== 과제 2: Account 싱글톤 확인 ===");
 
-        // @Bean 메서드(accountGenerator)로 등록된 Account 빈 조회
-        Account account =
-                context.getBean("accountGenerator", Account.class);
-        System.out.println("account = " + account);
+        MemberDTO member = context.getBean("getMember", MemberDTO.class);
+        Account account1 = member.getPersonalAccount();  // MemberDTO 안의 Account
+        System.out.println("MemberDTO 안의 Account: " + account1);
 
-        // 스프링 컨테이너에 등록된 모든 빈 이름 출력
-        Arrays.stream(context.getBeanDefinitionNames())
-                .forEach(System.out::println);
+        Account account2 = context.getBean("accountGenerator", Account.class);  // 직접 조회
+        System.out.println("직접 조회한 Account: " + account2);
+
+        System.out.println("같은 Account 객체인가? " + (account1 == account2));
+        System.out.println("예상: true (프록시가 싱글톤 보장)");
+
+//        // 스프링 컨테이너에 등록된 모든 빈 이름 출력
+//        Arrays.stream(context.getBeanDefinitionNames())
+//                .forEach(System.out::println);
     }
 }

@@ -2,6 +2,7 @@ package com.codeit.springbeanpractice.example01;
 
 import com.codeit.springbeanpractice.example01.config.ContextConfiguration;
 import com.codeit.springbeanpractice.example01.dto.MemberDTO;
+import com.codeit.springbeanpractice.example01.entity.Account;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -24,6 +25,19 @@ public class SpringBeanPracticeApplication {
         MemberDTO member =
                 context.getBean("getMember", MemberDTO.class);
         System.out.println("member = " + member);
+
+        // 과제 2: name 속성으로 변경한 Bean 이름으로 조회
+        Account account = context.getBean("mySpecialAccount", Account.class);
+        System.out.println("account = " + account);
+
+        // 과제 3: 존재하지 않는 Bean 조회 시도 (오류 발생 예상)
+        try {
+            context.getBean("nonExistentBean");
+            System.out.println("❌ 오류가 발생하지 않았습니다!");
+        } catch (Exception e) {
+            System.out.println("✅ 예상대로 오류 발생: " + e.getClass().getSimpleName());
+            System.out.println("   메시지: " + e.getMessage());
+        }
 
         // configurationSection02라는 이름의 빈 존재 여부 확인용 조회
         // (해당 이름의 @Bean 또는 @Configuration이 등록돼 있어야 함)

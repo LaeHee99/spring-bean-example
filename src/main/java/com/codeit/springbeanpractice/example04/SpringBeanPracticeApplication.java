@@ -50,11 +50,29 @@ public class SpringBeanPracticeApplication {
         ApplicationContext context =
                 SpringApplication.run(SpringBeanPracticeApplication.class, args);
 
-//        context.getBean("memberService");   // MemberService는 pattern에 걸리면 제외되어 조회 실패 가능
-        context.getBean("channelService");    // ChannelService 조회
-        context.getBean("channelRepository"); // ChannelRepository 조회
+        // ✅ excludeFilters에 걸리지 않은 Bean들은 정상 조회됨
+        System.out.println("=== excludeFilters에 걸리지 않은 Bean 조회 ===");
+        context.getBean("channelService");    // ChannelService 조회 성공
+        System.out.println("✅ channelService Bean 조회 성공");
 
-        context.getBean("memberRepository");  // ⚠️ MemberRepository는 pattern에 걸리면 제외되어 조회 실패해야 정상
+        context.getBean("channelRepository"); // ChannelRepository 조회 성공
+        System.out.println("✅ channelRepository Bean 조회 성공");
+
+        // ❌ excludeFilters(.*Member.* 패턴)에 걸린 Bean은 등록되지 않아 조회 실패
+        System.out.println("\n=== excludeFilters에 걸린 Bean 조회 시도 ===");
+        try {
+            context.getBean("memberRepository");
+            System.out.println("❌ memberRepository Bean이 조회되었습니다 - excludeFilters가 제대로 동작하지 않음!");
+        } catch (Exception e) {
+            System.out.println("✅ 예상대로 memberRepository Bean은 스캔에서 제외되어 조회 실패: " + e.getClass().getSimpleName());
+        }
+
+        try {
+            context.getBean("memberService");
+            System.out.println("❌ memberService Bean이 조회되었습니다 - excludeFilters가 제대로 동작하지 않음!");
+        } catch (Exception e) {
+            System.out.println("✅ 예상대로 memberService Bean은 스캔에서 제외되어 조회 실패: " + e.getClass().getSimpleName());
+        }
 
 //        Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
         // 등록된 빈 이름 전체 출력(디버깅용)
