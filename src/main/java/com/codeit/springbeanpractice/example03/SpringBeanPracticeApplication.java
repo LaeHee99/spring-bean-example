@@ -33,6 +33,10 @@ public class SpringBeanPracticeApplication {
 
         // MemberRepository 빈 조회
         // - repository 패키지가 ComponentScan 범위에 포함되어 있어야 정상 동작
-        context.getBean("memberRepository");
+        Object memberRepository = context.getBean("memberRepository");
+        System.out.println("✅ memberRepository Bean 조회 성공: " + memberRepository.getClass().getSimpleName());
+
+        Object memberService = context.getBean("memberService");
+        System.out.println("✅ memberService Bean 조회 성공: " + memberService.getClass().getSimpleName());
     }
 }

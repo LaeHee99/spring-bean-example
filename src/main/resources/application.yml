@@ -98,7 +98,10 @@ config:
   timeout: 3000
 
 custom:
+  # example14: 과제 2 - PropertySource 우선순위 테스트
+  key: value-from-yml
+
   # example16: FeatureXEnabledCondition에서 조건 확인
   # custom.feature-x=true 일 때만 FeatureService Bean이 등록됨
   # false이면 FeatureService는 빈으로 등록되지 않아 getBean 시 예외 발생
-  feature-x: false
+  feature-x: true  # 초기값은 true로 설정 (과제 2에서 false로 변경)

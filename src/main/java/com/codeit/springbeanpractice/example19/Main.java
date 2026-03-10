@@ -1,6 +1,7 @@
 package com.codeit.springbeanpractice.example19;
 
 import com.codeit.springbeanpractice.example19.condition.DevAndTestLogger;
+import com.codeit.springbeanpractice.example19.condition.ProductionOnlyBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -33,6 +34,24 @@ public class Main {
             System.out.println("\n❌ DevAndTestLogger Bean이 등록되지 않았습니다.");
             System.out.println("   → dev와 test 프로파일이 모두 활성화되지 않았기 때문입니다.");
             System.out.println("   → application.yml에서 spring.profiles.active를 확인하세요.");
+        }
+
+        // 과제 2: 환경 변수 기반 조건부 Bean 테스트
+        // ProductionOnlyBean은 MY_APP_ENV=production 환경 변수가 설정되어 있을 때만 등록됨
+        System.out.println("\n=== 과제 2: 환경 변수 기반 조건부 Bean 테스트 ===");
+        String myAppEnv = System.getenv("MY_APP_ENV");
+        System.out.println("현재 환경 변수 MY_APP_ENV = " + (myAppEnv != null ? myAppEnv : "(설정 안 됨)"));
+
+        try {
+            ProductionOnlyBean productionBean = context.getBean(ProductionOnlyBean.class);
+            System.out.println("✅ ProductionOnlyBean이 등록되었습니다!");
+            productionBean.doSomething();
+        } catch (Exception e) {
+            System.out.println("❌ ProductionOnlyBean이 등록되지 않았습니다.");
+            System.out.println("   → MY_APP_ENV 환경 변수가 'production'이 아니기 때문입니다.");
+            System.out.println("\n💡 테스트 방법:");
+            System.out.println("   export MY_APP_ENV=production");
+            System.out.println("   ./gradlew bootRun -PmainClass=com.codeit.springbeanpractice.example19.Main --args='--spring.main.web-application-type=none'");
         }
     }
 }

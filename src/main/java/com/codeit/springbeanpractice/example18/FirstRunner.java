@@ -21,6 +21,6 @@ public class FirstRunner implements CommandLineRunner, Ordered {
     public int getOrder() {
         // Ordered 인터페이스를 통해 실행 순서를 지정
         // 숫자가 작을수록 먼저 실행됨
-        return 2;
+        return 2;  // 원래대로 복원
     }
 }
